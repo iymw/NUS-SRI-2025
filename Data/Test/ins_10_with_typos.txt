@@ -1,0 +1,10 @@
+1. Delet the entry with NISN Siswa 6826029942
+2. Delte the entry with NISN Siswa 7102447231
+3. Update NISN Siswa 7173137449 wth values: Bahasa Indonesia: 58
+4. Updat NISN Siswa 1363357500 with values: Matematika: 69, Kimia: 56
+5. Delete entry NISN 4116611489
+6. Reed the value of 'Pendidikan Pancasila' for NISN Siswa 4062631486
+7. Update NISN Siswa 8154671127 values Fisika: 90, Bahasa Indonesia: 76, Kimia: 64, Matematika: 62, Pendidikan Agama: 100, Bahasa Inggris: 65, Biologi: 98
+8. Update NISN Siswa 4453668785 values Bahasa Indonesia: 100, Biologi: 78, Bahasa Inggris: 80, Kimia: 53, Pendidikan Agama: 53
+9. Update NISN Siswa 4453668785 wth values: Matematika: 100, Biologi: 60, Fisika: 75, Pendidikan Pancasila: 66
+10. Delet the entry with NISN Siswa 3476833718

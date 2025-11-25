@@ -1,0 +1,200 @@
+1. Update NISN Siswa 3903907906 values Matematika: 67, Pendidikan Agama: 52, Bahasa Indonesia: 64
+2. Update student 7604471783 with vals: Bahasa Inggris: 85, Kimia: 73, Biologi: 73, Fisika: 54, Pendidikan Agama: 64, Matematika: 89, Bahasa Indonesia: 68
+3. Red the value of 'Pendidikan Agama' for NISN Siswa 3774999734
+4. Delete the entry with NIS 8332230725
+5. Red the value of 'Matematika' for NISN Siswa 1140197661
+6. Delete entry NISN 6023918911
+7. Read the val of 'Fisika' for NISN Siswa 7530469622
+8. Red the value of 'Kimia' for NISN Siswa 4845662550
+9. Delte the entry with NISN Siswa 9734750852
+10. Updat NISN Siswa 7458493254 with values: Fisika: 59, Pendidikan Agama: 61
+11. Updat NISN Siswa 7378374876 with values: Bahasa Inggris: 95, Pendidikan Pancasila: 60, Fisika: 69, Biologi: 76, Pendidikan Agama: 89, Bahasa Indonesia: 79
+12. Delet the entry with NISN Siswa 6516582418
+13. Delte the entry with NISN Siswa 7151856916
+14. Delete the record of student 6405788978
+15. Updat NISN Siswa 8506640805 with values: Biologi: 58, Bahasa Inggris: 90, Fisika: 82, Pendidikan Pancasila: 50, Bahasa Indonesia: 87, Kimia: 100, Matematika: 94
+16. Update student 6956752918 with vals: Biologi: 63
+17. Delete the record of student 3346767412
+18. Read value 'Bahasa Indonesia' NISN 5237980211
+19. Update NISN Siswa 7458493254 wth values: Pendidikan Pancasila: 75, Fisika: 58
+20. Uppdate NISN Siswa 2354852199 with values Pendidikan Agama: 53
+21. Uppdate NISN Siswa 5137731718 with values Pendidikan Agama: 89, Pendidikan Pancasila: 80, Bahasa Inggris: 57, Biologi: 53, Bahasa Indonesia: 64, Kimia: 68
+22. Update student 3114685415 with vals: Fisika: 87, Bahasa Inggris: 75, Bahasa Indonesia: 68, Biologi: 88, Pendidikan Agama: 85, Matematika: 86, Pendidikan Pancasila: 63, Kimia: 67
+23. Reed the value of 'Kimia' for NISN Siswa 5015564444
+24. Update NISN Siswa 3733506685 values Fisika: 97
+25. Uppdate NISN Siswa 1822489357 with values Bahasa Indonesia: 74, Pendidikan Pancasila: 52, Kimia: 86, Matematika: 80, Pendidikan Agama: 69, Fisika: 53, Biologi: 78
+26. Update NISN Siswa 1140197661 values Biologi: 93, Kimia: 58, Fisika: 75, Bahasa Indonesia: 62, Pendidikan Pancasila: 68, Bahasa Inggris: 60
+27. Read value 'Pendidikan Pancasila' NISN 8119055720
+28. Delte the entry with NISN Siswa 1089969007
+29. Update NISN Siswa 9685865764 wth values: Biologi: 70, Bahasa Indonesia: 85, Kimia: 87, Pendidikan Pancasila: 82, Bahasa Inggris: 52, Matematika: 68, Fisika: 59, Pendidikan Agama: 68
+30. Delete the record of student 3514444862
+31. Update NISN Siswa 6336339162 wth values: Kimia: 63, Bahasa Indonesia: 86, Biologi: 64, Bahasa Inggris: 66, Pendidikan Pancasila: 50, Fisika: 55, Matematika: 91, Pendidikan Agama: 51
+32. Reed the value of 'Pendidikan Pancasila' for NISN Siswa 9963179180
+33. Red the value of 'Pendidikan Agama' for NISN Siswa 9088855680
+34. Update student 7604471783 with vals: Bahasa Inggris: 87, Kimia: 100, Bahasa Indonesia: 58, Pendidikan Pancasila: 100, Fisika: 82, Matematika: 75, Biologi: 60, Pendidikan Agama: 67
+35. Delete entry NISN 5499696068
+36. Delet the entry with NISN Siswa 5137731718
+37. Update NISN Siswa 7604471783 wth values: Biologi: 51, Matematika: 51, Bahasa Inggris: 88, Bahasa Indonesia: 78, Pendidikan Agama: 97, Fisika: 83, Kimia: 81
+38. Uppdate NISN Siswa 2593782704 with values Pendidikan Agama: 66, Bahasa Indonesia: 71, Fisika: 89, Pendidikan Pancasila: 86, Matematika: 51, Kimia: 99, Biologi: 58
+39. Uppdate NISN Siswa 7604471783 with values Fisika: 89, Bahasa Inggris: 84
+40. Read value 'Kimia' NISN 9122981527
+41. Reed the value of 'Biologi' for NISN Siswa 7467944776
+42. Read the value of Fisika for student 1139482491
+43. Updat NISN Siswa 3699263031 with values: Bahasa Inggris: 66, Pendidikan Pancasila: 75, Pendidikan Agama: 61, Fisika: 99
+44. Delet the entry with NISN Siswa 2340355547
+45. Updat NISN Siswa 6784264233 with values: Matematika: 100, Biologi: 83, Bahasa Inggris: 78, Bahasa Indonesia: 100, Pendidikan Agama: 70
+46. Delete entry NISN 5385516296
+47. Update student 2354852199 with vals: Bahasa Inggris: 73
+48. Update NISN Siswa 4252362634 wth values: Fisika: 70, Bahasa Inggris: 85
+49. Update student 1458910504 with vals: Kimia: 51, Matematika: 65
+50. Update NISN Siswa 5237980211 wth values: Fisika: 92, Matematika: 96, Pendidikan Agama: 83, Pendidikan Pancasila: 81, Biologi: 67, Bahasa Inggris: 91
+51. Delete the record of student 4739229159
+52. Delet the entry with NISN Siswa 6956752918
+53. Delete the entry with NIS 5462783403
+54. Update student 4503079572 with vals: Pendidikan Agama: 100, Bahasa Inggris: 93, Fisika: 71, Matematika: 65, Pendidikan Pancasila: 51, Kimia: 78
+55. Update NISN Siswa 6679069513 wth values: Fisika: 65
+56. Update NISN Siswa 3189636615 wth values: Pendidikan Agama: 83, Bahasa Inggris: 67, Bahasa Indonesia: 52, Biologi: 92
+57. Delete the record of student 7604471783
+58. Delete the entry with NIS 9088855680
+59. Update NISN Siswa 5483626878 values Pendidikan Agama: 68, Bahasa Inggris: 58, Biologi: 73, Fisika: 66
+60. Update NISN Siswa 5237980211 wth values: Pendidikan Agama: 53, Matematika: 50, Fisika: 76, Bahasa Inggris: 86, Biologi: 88, Kimia: 100
+61. Update NISN Siswa 6336339162 wth values: Pendidikan Pancasila: 57
+62. Update student 4146472477 with vals: Biologi: 60, Pendidikan Agama: 100, Fisika: 94, Pendidikan Pancasila: 88
+63. Delet the entry with NISN Siswa 2720908164
+64. Delet the entry with NISN Siswa 1140197661
+65. Delete the record of student 2783481476
+66. Update NISN Siswa 3114685415 values Bahasa Indonesia: 83, Biologi: 99, Pendidikan Agama: 64, Kimia: 59
+67. Update NISN Siswa 6217062730 wth values: Biologi: 61
+68. Read value 'Bahasa Inggris' NISN 9168343812
+69. Update NISN Siswa 1139482491 wth values: Fisika: 90, Biologi: 71, Bahasa Indonesia: 58, Pendidikan Pancasila: 81, Pendidikan Agama: 87, Kimia: 50, Bahasa Inggris: 57, Matematika: 69
+70. Update NISN Siswa 3774999734 wth values: Bahasa Inggris: 71, Kimia: 74, Pendidikan Pancasila: 81, Pendidikan Agama: 71
+71. Update NISN Siswa 3733506685 wth values: Pendidikan Pancasila: 63
+72. Delete the record of student 6846529188
+73. Delet the entry with NISN Siswa 2985893188
+74. Read the value of Matematika for student 5237980211
+75. Updat NISN Siswa 5237980211 with values: Matematika: 78, Bahasa Inggris: 57, Kimia: 90, Fisika: 74, Pendidikan Pancasila: 72
+76. Delete the record of student 2501805185
+77. Uppdate NISN Siswa 5483626878 with values Biologi: 69, Kimia: 60, Matematika: 83, Pendidikan Agama: 78, Bahasa Indonesia: 51
+78. Update NISN Siswa 2080162009 values Matematika: 69, Pendidikan Pancasila: 61, Pendidikan Agama: 92, Bahasa Inggris: 75
+79. Read value 'Bahasa Inggris' NISN 6923153019
+80. Update student 3114685415 with vals: Kimia: 81, Biologi: 54, Fisika: 55, Bahasa Inggris: 58, Pendidikan Agama: 60, Bahasa Indonesia: 72
+81. Update NISN Siswa 4146472477 wth values: Kimia: 99, Pendidikan Pancasila: 65, Bahasa Inggris: 93, Biologi: 96
+82. Delete the entry with NIS 3733506685
+83. Update student 3699263031 with vals: Bahasa Inggris: 83, Fisika: 100, Pendidikan Agama: 81
+84. Uppdate NISN Siswa 9168343812 with values Matematika: 59, Bahasa Indonesia: 70, Biologi: 75, Fisika: 89, Kimia: 51, Pendidikan Pancasila: 100, Bahasa Inggris: 56, Pendidikan Agama: 100
+85. Delete the record of student 1139482491
+86. Uppdate NISN Siswa 5947363206 with values Kimia: 99, Bahasa Inggris: 96, Bahasa Indonesia: 81, Pendidikan Pancasila: 75
+87. Delete the record of student 9122981527
+88. Reed the value of 'Pendidikan Pancasila' for NISN Siswa 3774999734
+89. Delte the entry with NISN Siswa 2593782704
+90. Update student 5947363206 with vals: Biologi: 79, Pendidikan Pancasila: 69, Pendidikan Agama: 80, Kimia: 79, Bahasa Inggris: 93, Matematika: 52
+91. Delete the record of student 6336339162
+92. Red the value of 'Pendidikan Pancasila' for NISN Siswa 8724415638
+93. Update student 6084993877 with vals: Kimia: 76, Bahasa Indonesia: 72, Matematika: 66, Pendidikan Pancasila: 57, Fisika: 82
+94. Read value 'Bahasa Indonesia' NISN 6837318763
+95. Read value 'Bahasa Inggris' NISN 6217062730
+96. Update student 5237980211 with vals: Bahasa Inggris: 81, Pendidikan Pancasila: 59, Pendidikan Agama: 57, Fisika: 71
+97. Red the value of 'Pendidikan Pancasila' for NISN Siswa 5365512282
+98. Update NISN Siswa 9685865764 wth values: Biologi: 79, Kimia: 87, Matematika: 67
+99. Delete the record of student 6679069513
+100. Update NISN Siswa 5483626878 values Kimia: 95, Bahasa Indonesia: 95, Matematika: 55, Pendidikan Pancasila: 88
+101. Uppdate NISN Siswa 3774999734 with values Fisika: 87
+102. Update NISN Siswa 4503079572 wth values: Kimia: 81, Bahasa Indonesia: 95, Fisika: 67
+103. Delete the record of student 1944754768
+104. Red the value of 'Bahasa Inggris' for NISN Siswa 9168343812
+105. Read the value of Fisika for student 7378374876
+106. Reed the value of 'Fisika' for NISN Siswa 3189636615
+107. Read the value of Bahasa Indonesia for student 1766321124
+108. Update student 2018862914 with vals: Biologi: 97
+109. Delte the entry with NISN Siswa 1458910504
+110. Delete entry NISN 7157477634
+111. Red the value of 'Pendidikan Pancasila' for NISN Siswa 6784264233
+112. Reed the value of 'Fisika' for NISN Siswa 4252362634
+113. Updat NISN Siswa 8076215673 with values: Biologi: 67, Pendidikan Agama: 55, Bahasa Indonesia: 55, Bahasa Inggris: 53, Pendidikan Pancasila: 65
+114. Update student 6084993877 with vals: Matematika: 96, Kimia: 88, Bahasa Indonesia: 58, Pendidikan Pancasila: 53, Bahasa Inggris: 67, Pendidikan Agama: 81, Biologi: 75, Fisika: 81
+115. Update NISN Siswa 6084993877 values Pendidikan Pancasila: 55, Matematika: 94, Bahasa Inggris: 79, Kimia: 83, Bahasa Indonesia: 92, Fisika: 73, Biologi: 84, Pendidikan Agama: 50
+116. Read the val of 'Pendidikan Agama' for NISN Siswa 6837318763
+117. Delete the entry with NIS 2018862914
+118. Delete entry NISN 4845662550
+119. Update NISN Siswa 3248237876 wth values: Fisika: 53, Pendidikan Agama: 75, Bahasa Indonesia: 94, Biologi: 59, Kimia: 87, Matematika: 73, Pendidikan Pancasila: 55
+120. Reed the value of 'Bahasa Inggris' for NISN Siswa 5205461964
+121. Red the value of 'Fisika' for NISN Siswa 6217062730
+122. Update student 9261554856 with vals: Fisika: 85, Matematika: 99, Pendidikan Pancasila: 61, Bahasa Indonesia: 87, Bahasa Inggris: 68, Pendidikan Agama: 56, Biologi: 85, Kimia: 65
+123. Delete entry NISN 3475729825
+124. Read the val of 'Bahasa Inggris' for NISN Siswa 8426350236
+125. Update NISN Siswa 6809602568 wth values: Matematika: 72
+126. Updat NISN Siswa 7045075649 with values: Fisika: 66, Biologi: 65
+127. Uppdate NISN Siswa 3189636615 with values Kimia: 91, Pendidikan Agama: 94, Bahasa Inggris: 74, Biologi: 82, Pendidikan Pancasila: 70, Fisika: 83, Bahasa Indonesia: 74, Matematika: 52
+128. Uppdate NISN Siswa 6314628799 with values Biologi: 65, Fisika: 61
+129. Update NISN Siswa 7458493254 values Biologi: 86
+130. Delete the entry with NIS 1766321124
+131. Update NISN Siswa 9168343812 values Fisika: 97, Pendidikan Agama: 95
+132. Red the value of 'Matematika' for NISN Siswa 2444611071
+133. Delete the entry with NIS 9827232081
+134. Delet the entry with NISN Siswa 8724415638
+135. Delte the entry with NISN Siswa 3114685415
+136. Delete entry NISN 1822489357
+137. Red the value of 'Pendidikan Pancasila' for NISN Siswa 9168343812
+138. Update NISN Siswa 5237980211 wth values: Bahasa Inggris: 50, Pendidikan Agama: 93, Kimia: 91, Bahasa Indonesia: 86, Biologi: 70, Matematika: 79
+139. Uppdate NISN Siswa 6314628799 with values Matematika: 94, Biologi: 57, Pendidikan Pancasila: 59, Bahasa Inggris: 67
+140. Update NISN Siswa 6217062730 values Bahasa Inggris: 93, Pendidikan Pancasila: 91, Fisika: 51, Bahasa Indonesia: 77, Matematika: 70
+141. Read the val of 'Fisika' for NISN Siswa 9261554856
+142. Delete the record of student 9261554856
+143. Update student 7027765739 with vals: Bahasa Inggris: 96, Biologi: 90, Kimia: 65, Pendidikan Agama: 77
+144. Update student 7690537298 with vals: Bahasa Indonesia: 54, Fisika: 66
+145. Update student 8338338298 with vals: Pendidikan Pancasila: 70, Bahasa Indonesia: 56, Biologi: 50
+146. Red the value of 'Pendidikan Pancasila' for NISN Siswa 3248237876
+147. Updat NISN Siswa 6217062730 with values: Matematika: 94, Bahasa Inggris: 88, Pendidikan Agama: 74
+148. Update student 4881462402 with vals: Fisika: 68, Bahasa Inggris: 52, Biologi: 56, Matematika: 84, Kimia: 89, Bahasa Indonesia: 88, Pendidikan Agama: 58
+149. Delete the record of student 5947363206
+150. Update NISN Siswa 4503079572 values Kimia: 94, Bahasa Inggris: 72
+151. Update student 3903907906 with vals: Kimia: 52, Biologi: 62, Pendidikan Agama: 75, Pendidikan Pancasila: 73, Fisika: 57
+152. Read value 'Biologi' NISN 8835390250
+153. Delete entry NISN 8493345887
+154. Uppdate NISN Siswa 8338338298 with values Biologi: 97, Matematika: 79
+155. Read value 'Pendidikan Pancasila' NISN 7378374876
+156. Update NISN Siswa 2444611071 wth values: Pendidikan Agama: 85, Fisika: 81, Bahasa Indonesia: 62, Biologi: 96, Pendidikan Pancasila: 75, Kimia: 56
+157. Update NISN Siswa 7378374876 wth values: Kimia: 74, Bahasa Inggris: 52, Biologi: 75, Fisika: 90, Pendidikan Pancasila: 67, Matematika: 54, Pendidikan Agama: 98, Bahasa Indonesia: 62
+158. Read the value of Biologi for student 7941218914
+159. Reed the value of 'Bahasa Inggris' for NISN Siswa 7204875278
+160. Delete the entry with NIS 6262438191
+161. Updat NISN Siswa 8119055720 with values: Kimia: 65, Pendidikan Pancasila: 73, Bahasa Indonesia: 55, Pendidikan Agama: 71, Biologi: 73, Matematika: 60, Fisika: 81
+162. Update NISN Siswa 6923153019 wth values: Biologi: 62, Kimia: 92, Bahasa Inggris: 61, Matematika: 90
+163. Uppdate NISN Siswa 7027765739 with values Pendidikan Pancasila: 54, Matematika: 90, Bahasa Inggris: 69, Fisika: 59, Biologi: 59
+164. Reed the value of 'Kimia' for NISN Siswa 6314628799
+165. Update NISN Siswa 2354852199 values Pendidikan Pancasila: 79, Bahasa Inggris: 87, Matematika: 65, Bahasa Indonesia: 67, Biologi: 94
+166. Red the value of 'Kimia' for NISN Siswa 2322638955
+167. Delete entry NISN 4146472477
+168. Updat NISN Siswa 3189636615 with values: Fisika: 91, Pendidikan Agama: 87, Bahasa Inggris: 54
+169. Delet the entry with NISN Siswa 4503079572
+170. Delte the entry with NISN Siswa 8506640805
+171. Delete the record of student 3248237876
+172. Updat NISN Siswa 6809602568 with values: Biologi: 53
+173. Delet the entry with NISN Siswa 7458493254
+174. Update NISN Siswa 2322638955 wth values: Pendidikan Pancasila: 95, Bahasa Indonesia: 77
+175. Delet the entry with NISN Siswa 3774999734
+176. Delete the record of student 6084993877
+177. Delete entry NISN 9963179180
+178. Red the value of 'Biologi' for NISN Siswa 6837318763
+179. Uppdate NISN Siswa 3282227588 with values Bahasa Inggris: 70, Biologi: 61, Pendidikan Pancasila: 71
+180. Update NISN Siswa 7690537298 values Matematika: 100, Bahasa Indonesia: 92, Pendidikan Pancasila: 73, Kimia: 79, Fisika: 56, Pendidikan Agama: 64
+181. Delete the record of student 7045075649
+182. Update student 8426350236 with vals: Biologi: 83, Pendidikan Agama: 91, Bahasa Inggris: 79, Fisika: 72, Matematika: 94
+183. Read the value of Bahasa Indonesia for student 2354852199
+184. Red the value of 'Bahasa Indonesia' for NISN Siswa 7378374876
+185. Delte the entry with NISN Siswa 3699263031
+186. Update NISN Siswa 1132215692 values Pendidikan Pancasila: 75, Bahasa Inggris: 50, Matematika: 67, Biologi: 98
+187. Uppdate NISN Siswa 2354852199 with values Pendidikan Pancasila: 93, Matematika: 50, Bahasa Inggris: 90, Bahasa Indonesia: 91, Pendidikan Agama: 79, Biologi: 94
+188. Update student 8426350236 with vals: Bahasa Inggris: 50, Fisika: 63, Pendidikan Pancasila: 53, Pendidikan Agama: 64, Bahasa Indonesia: 66, Kimia: 84
+189. Delete the record of student 6314628799
+190. Update NISN Siswa 2080162009 wth values: Bahasa Indonesia: 99, Biologi: 81
+191. Update NISN Siswa 5365512282 values Bahasa Inggris: 51, Matematika: 70, Bahasa Indonesia: 100
+192. Delet the entry with NISN Siswa 3282227588
+193. Update student 6837318763 with vals: Matematika: 58, Bahasa Indonesia: 53, Kimia: 64
+194. Delete the entry with NIS 1132215692
+195. Updat NISN Siswa 7204875278 with values: Bahasa Inggris: 71, Matematika: 51, Biologi: 90, Pendidikan Pancasila: 85, Kimia: 73, Pendidikan Agama: 53
+196. Read value 'Pendidikan Pancasila' NISN 2444611071
+197. Uppdate NISN Siswa 8835390250 with values Pendidikan Pancasila: 86, Pendidikan Agama: 94, Bahasa Indonesia: 56, Fisika: 67, Kimia: 83, Matematika: 55
+198. Delet the entry with NISN Siswa 7378374876
+199. Delete entry NISN 4696119802
+200. Uppdate NISN Siswa 8338338298 with values Pendidikan Pancasila: 72, Biologi: 76, Kimia: 99, Bahasa Indonesia: 53, Matematika: 83, Fisika: 65, Bahasa Inggris: 83, Pendidikan Agama: 70

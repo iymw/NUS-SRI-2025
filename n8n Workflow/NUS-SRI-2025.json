@@ -1,0 +1,2000 @@
+{
+  "name": "NUS-SRI-2025",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "allowFileUploads": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2320,
+        1184
+      ],
+      "id": "a49d88de-8d6a-4515-bcb2-b55a1a3c1fd6",
+      "name": "When chat message received",
+      "webhookId": "2e710613-4949-410f-b092-0933ac6c8ee6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -208,
+        1168
+      ],
+      "id": "da0cfd15-d8f0-4367-89a0-cc5c812083e6",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "jsCode": "const files = $input.all().at(0)?.binary\nconst isfilesSent = typeof files === 'object' && Object.keys(files)?.length\n\nif(isfilesSent){\n  return { files }\n}\n\nreturn $input.all()"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2096,
+        1184
+      ],
+      "id": "4cee66f7-2695-4069-831c-a6dacd6ae386",
+      "name": "[0] Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  output: JSON.parse($input.first().json.output.replace(/```json\\n?|```/g, \"\")),\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -640,
+        1168
+      ],
+      "id": "ad58d6d0-2f50-464f-9e1f-77e97076cf9f",
+      "name": "[1] Code"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "acc18059-59fe-4222-bdc9-02fbc74aab9e",
+                    "leftValue": "={{ $json.command_type }}",
+                    "rightValue": "modify_cell",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.command_type }}",
+                    "rightValue": "read",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "8e3bb1a0-16d2-4ca3-b40c-edf6da5e0fe5"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "46b2d5dd-dde4-4f38-ac3e-1718dfc00cab",
+                    "leftValue": "={{ $json.command_type }}",
+                    "rightValue": "delete_rows",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        16,
+        1168
+      ],
+      "id": "1422eaf4-63a5-4df7-9c2c-21b40b270cd1",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "files",
+        "options": {
+          "includeBinary": true
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1872,
+        1184
+      ],
+      "id": "4d49b8b2-3f22-4def-b97d-62710082a279",
+      "name": "[0] Split Out",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -432,
+        1168
+      ],
+      "id": "c1fc2a13-3584-4b57-8575-69c65739fc48",
+      "name": "[1] Split Out"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=# Instructions\n\nYou are an Admin agent. Your job is to implement user instructions into the student score spreadsheet.\n\nFollow these rules:\n\n1. If the user asks to update or modify student scores:\na. First, use the Read tool to retrieve the current data using\nb. Then, use the Update tool to update the data desired by the user.\nc. Match and fill these fields:\n- nisn_siswa\n- pendidikan_agama\n- pendidikan_pancasila\n- bahasa_indonesia\n- bahasa_inggris\n- matematika\n- fisika\n- kimia \n- biologi\n\n2. If the user asks to check, show, or retrieve data:\na. Use the Read tool.\nb. Extract the requested field(s) based on what the user wants.\n\n3. If the user asks to delete or remove a student entry:\na. First, use the Read tool to find the row using nisn_siswa.\nb. Then, use the Delete tool to remove that row.\n\n# Example\n\n1. For updating, you may submit it to the Update tool like this:\nnisn_siswa: ...\npendidikan_agama: 90\npendidikan_pancasila:\nbahasa_indonesia: 88\nbahasa_inggris: 100\nmatematika: 100\nfisika:\nkimia: 90\nbiologi:\n\n2. For deleting, you may submit it to the Delete tool like this:\nrow: 2"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -2096,
+        1392
+      ],
+      "id": "499dbd6f-8fc9-4b7e-9ed8-84601374d3fb",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI",
+          "mode": "list",
+          "cachedResultName": "NUS-SRI-2025-TEST",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1239044260,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit#gid=1239044260"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "NISN Siswa": "={{ $fromAI('nisn_siswa') }}",
+            "Pendidikan Agama": "={{ $fromAI('pendidikan_agama') }}",
+            "Pendidikan Pancasila": "={{ $fromAI('pendidikan_pancasila') }}",
+            "Bahasa Indonesia": "={{ $fromAI('bahasa_indonesia') }}",
+            "Bahasa Inggris": "={{ $fromAI('bahasa_inggris') }}",
+            "Matematika": "={{ $fromAI('matematika') }}",
+            "Fisika": "={{ $fromAI('fisika') }}",
+            "Kimia": "={{ $fromAI('kimia') }}",
+            "Biologi": "={{ $fromAI('biologi') }}"
+          },
+          "matchingColumns": [
+            "NISN Siswa"
+          ],
+          "schema": [
+            {
+              "id": "NISN Siswa",
+              "displayName": "NISN Siswa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pendidikan Agama",
+              "displayName": "Pendidikan Agama",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pendidikan Pancasila",
+              "displayName": "Pendidikan Pancasila",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bahasa Indonesia",
+              "displayName": "Bahasa Indonesia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bahasa Inggris",
+              "displayName": "Bahasa Inggris",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Matematika",
+              "displayName": "Matematika",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fisika",
+              "displayName": "Fisika",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Kimia",
+              "displayName": "Kimia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Biologi",
+              "displayName": "Biologi",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        -2080,
+        1616
+      ],
+      "id": "86da5fb9-5e86-44d8-802b-43d0c34426a8",
+      "name": "Update",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Yc0nEiAgAzixVsmR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI",
+          "mode": "list",
+          "cachedResultName": "NUS-SRI-2025-TEST",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1239044260,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit#gid=1239044260"
+        },
+        "startIndex": "={{ $fromAI('row') }}"
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        -1824,
+        1616
+      ],
+      "id": "9fa5a25c-a92a-40b8-a836-2d6effa9dda2",
+      "name": "Delete",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Yc0nEiAgAzixVsmR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.instruction.join(\"\\n\\n\") }}",
+        "options": {
+          "systemMessage": "=# Identity\n\nYou are a Formatter agent. You are responsible for converting the related input:\n{{ $json.instruction.join(\"\\n\\n\") }} into a JSON format.\n```json\n[\n  {\n    \"NISN Siswa\": \"\",\n    \"Pendidikan Agama\": \"\",\n    \"Pendidikan Pancasila\": \"\",\n    \"Bahasa Indonesia\": \"\",\n    \"Bahasa Inggris\": \"\",\n    \"Matematika\": \"\",\n    \"Fisika\": \"\",\n    \"Kimia\": \"\",\n    \"Biologi\": \"\"\n  }\n]\n\n# Example\n\nUpdate NISN Siswa 2029577386 values Pendidikan Pancasila: 52\n\n```json\\n[\\n  {\\n    \"NISN Siswa\": \"5814704539\",\\n    \"Pendidikan Agama\": \"\",\\n    \"Pendidikan Pancasila\": \"52\",\\n    \"Bahasa Indonesia\": \"\",\\n    \"Bahasa Inggris\": \"\",\\n    \"Matematika\": \"\",\\n    \"Fisika\": \"\",\\n    \"Kimia\": \"\",\\n    \"Biologi\": \"\"\\n  }\\n]\\n```\n",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        240,
+        288
+      ],
+      "id": "4c8a2a0a-d4af-4d25-b7b7-9dccb9974f4e",
+      "name": "[2] Formatter",
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "18fd93db-f233-4f84-941a-58babbd00893",
+              "name": "NISN Siswa",
+              "value": "={{ $json['NISN Siswa'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7b590c2b-7793-46ee-985c-63ce10fe5e56",
+              "name": "Pendidikan Agama",
+              "value": "={{ $json['Pendidikan Agama'] || null }}",
+              "type": "string"
+            },
+            {
+              "id": "ff8e99d5-2141-4fe7-9e1c-a1f1ad760818",
+              "name": "Pendidikan Pancasila",
+              "value": "={{ $json['Pendidikan Pancasila'] || null }}",
+              "type": "string"
+            },
+            {
+              "id": "8da0caa9-8287-4f76-83d2-8327d74f35fb",
+              "name": "Bahasa Indonesia",
+              "value": "={{ $json['Bahasa Indonesia'] || null }}",
+              "type": "string"
+            },
+            {
+              "id": "a3f67a0c-1330-4d5c-bbdb-863d1386d572",
+              "name": "Bahasa Inggris",
+              "value": "={{ $json['Bahasa Inggris'] || null }}",
+              "type": "string"
+            },
+            {
+              "id": "507ff9bc-3c4b-4db5-93bc-2c1fafaf164b",
+              "name": "Matematika",
+              "value": "={{ $json.Matematika || null }}",
+              "type": "string"
+            },
+            {
+              "id": "fddad041-64be-4171-b3d8-fc99e46a219b",
+              "name": "Fisika",
+              "value": "={{ $json.Fisika || null }}",
+              "type": "string"
+            },
+            {
+              "id": "4ff30db2-f9ed-4e66-bf8e-24b606df4629",
+              "name": "Kimia",
+              "value": "={{ $json.Kimia || null }}",
+              "type": "string"
+            },
+            {
+              "id": "dcd26200-67b6-411b-9cf2-d043edf5d33e",
+              "name": "Biologi",
+              "value": "={{ $json.Biologi || null }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        512
+      ],
+      "id": "0feb406f-3dd7-42bb-8320-47d301d4fd00",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "update",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        816,
+        736
+      ],
+      "id": "27092acd-d513-4d0a-92d4-96dbdd175b53",
+      "name": "[1] Aggregate"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI",
+          "mode": "list",
+          "cachedResultName": "NUS-SRI-2025-TEST",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2010175466,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit#gid=2010175466"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "NISN Siswa"
+          ],
+          "schema": [
+            {
+              "id": "NISN Siswa",
+              "displayName": "NISN Siswa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pendidikan Agama",
+              "displayName": "Pendidikan Agama",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pendidikan Pancasila",
+              "displayName": "Pendidikan Pancasila",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bahasa Indonesia",
+              "displayName": "Bahasa Indonesia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bahasa Inggris",
+              "displayName": "Bahasa Inggris",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Matematika",
+              "displayName": "Matematika",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fisika",
+              "displayName": "Fisika",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Kimia",
+              "displayName": "Kimia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Biologi",
+              "displayName": "Biologi",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        816,
+        512
+      ],
+      "id": "5c569f55-b872-4443-9e19-14600737a858",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Yc0nEiAgAzixVsmR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  output: JSON.parse($input.first().json.output.replace(/```json\\n?|```/g, \"\")),\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        288
+      ],
+      "id": "5119c383-d05a-43ad-a4c9-47ea7a1f16e6",
+      "name": "[1] Code1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        816,
+        288
+      ],
+      "id": "49f3e652-866c-41f2-9a30-f239bef43e08",
+      "name": "[1] Split Out1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.instruction.join(\"\\n\\n\") }}",
+        "options": {
+          "systemMessage": "=# Identity\n\nYou are an Informant, responsible for retrieving, analyzing, and returning user data using the Read tool.\n\n# Instructions\n\nConsider the user's questions and generate relevant answers based on the retrieved information.\n\n# Example\n\nUser's reqeuest: Read the value of 'Matematika' for NISN Siswa 6378845696\n\nResponse: The value of 'Matematika' for NISN Siswa 6378845696 is 80",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        240,
+        736
+      ],
+      "id": "9efaa607-ea87-474c-b5bc-f0f0926b892e",
+      "name": "[3] Informant",
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI",
+          "mode": "list",
+          "cachedResultName": "NUS-SRI-2025-TEST",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2010175466,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit#gid=2010175466"
+        },
+        "startIndex": "={{ $json.arr }}"
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        816,
+        1280
+      ],
+      "id": "e9d0e724-cc89-40aa-b2a1-c4725ac80add",
+      "name": "Delete Row(s)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Yc0nEiAgAzixVsmR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "arr",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        816,
+        992
+      ],
+      "id": "73129a73-5e38-42bc-aa1a-2742f87e2da6",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const arr = $input.first().json[\"output\"];\narr.sort((a, b) => parseInt(b) - parseInt(a));\nreturn { arr };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        992
+      ],
+      "id": "7f882b41-0908-41c5-855a-261a3bc4791c",
+      "name": "Code3"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\"\"]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        1280
+      ],
+      "id": "48697417-a67e-44ba-8197-9f80fa20382f",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.instruction.join(\"\\n\\n\") }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Identity\n\nYou are a Get Row(s) for Delete agent. You are responsible for converting input from the user into JSON format.\n```json\n[\"1\", \"11\", ...]\n\n# Instructions\n\nWhen the user requests DELETE, use the Read Tool to retrieve the corresponding row number.",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        240,
+        992
+      ],
+      "id": "8d2bc2ac-d37e-4f9d-a85a-5b1db074b8e5",
+      "name": "Get Row(s) for Delete",
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI",
+          "mode": "list",
+          "cachedResultName": "NUS-SRI-2025-TEST",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1239044260,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit#gid=1239044260"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        -1952,
+        1616
+      ],
+      "id": "11b78a64-e1ae-4ab0-a99c-f7f442ba9147",
+      "name": "[0] Read",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Yc0nEiAgAzixVsmR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI",
+          "mode": "list",
+          "cachedResultName": "NUS-SRI-2025-TEST",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2010175466,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IDW0P8OAjpLw2DzspdtUM9zZOMAigg2gkxjaO8cLBKI/edit#gid=2010175466"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        384,
+        1280
+      ],
+      "id": "96600b37-0a8b-4a35-8094-00232e3201a9",
+      "name": "[1] Read",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Yc0nEiAgAzixVsmR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1648,
+        1184
+      ],
+      "id": "62e754a6-372b-4764-b034-a8464f656fbd",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {
+          "encoding": "utf8"
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        -288
+      ],
+      "id": "2effd29f-ab80-4973-80cd-c8d6093eee60",
+      "name": "Extract from File5",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        -96
+      ],
+      "id": "3cc7092f-af0b-47e7-aa15-8b997ef452a3",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "operation": "rtf",
+        "binaryPropertyName": "base64DataUrlBinary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        912
+      ],
+      "id": "5e359435-3d6d-4cb0-a590-53d0c942c801",
+      "name": "Extract from File7"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        704
+      ],
+      "id": "4541112a-ce13-4b98-86de-5b60d998275c",
+      "name": "Extract from File6"
+    },
+    {
+      "parameters": {
+        "operation": "xml",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        512
+      ],
+      "id": "32ec2ece-808f-4fa2-87f0-093b46fe3069",
+      "name": "Extract from File4"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        304
+      ],
+      "id": "d90e0a17-0b4d-4603-a5cb-cb06277a7cdd",
+      "name": "Extract from File3"
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "base64DataBinary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        112
+      ],
+      "id": "bd68a84b-011b-4a3d-8184-138fe2c43ea0",
+      "name": "Extract from File2"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "binaryPropertyName": "base64DataUrlBinary",
+        "options": {
+          "fileName": "={{ $json.fileName }}",
+          "mimeType": "={{ $json.mimeType }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1104,
+        912
+      ],
+      "id": "341265e4-2034-4fbe-bd52-36776938f824",
+      "name": "Convert to File8"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {
+          "fileName": "={{ $json.fileName }}",
+          "mimeType": "={{ $json.mimeType }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1104,
+        704
+      ],
+      "id": "4b116af0-de67-4147-bbfa-2adb418765f0",
+      "name": "Convert to File7"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {
+          "fileName": "={{ $json.fileName }}",
+          "mimeType": "={{ $json.mimeType }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1104,
+        512
+      ],
+      "id": "40939d60-30d0-4ed6-856d-e14e36c9ac05",
+      "name": "Convert to File5"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {
+          "fileName": "={{ $json.fileName }}",
+          "mimeType": "={{ $json.mimeType }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1104,
+        304
+      ],
+      "id": "b17fc763-420e-4a8c-a944-b9b0b067aad2",
+      "name": "Convert to File4"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {
+          "fileName": "={{ $json.fileName }}",
+          "mimeType": "={{ $json.mimeType }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1104,
+        112
+      ],
+      "id": "57feb9a4-bf57-47a9-99cf-f1b9ea24aa0e",
+      "name": "Convert to File3"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {
+          "fileName": "={{ $json.fileName }}",
+          "mimeType": "={{ $json.mimeType }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1104,
+        -96
+      ],
+      "id": "59711cf4-bf43-4caa-b19a-06f8346c179f",
+      "name": "Convert to File2"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "binaryPropertyName": "base64DataBinary",
+        "options": {
+          "fileName": "={{ $json.fileName }}",
+          "mimeType": "={{ $json.mimeType }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1104,
+        -288
+      ],
+      "id": "0238550f-fa15-41b2-8187-cca324e3ba92",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "binaryPropertyName": "=data",
+        "options": {
+          "fileName": "={{ $json.fileName }}",
+          "mimeType": "={{ $json.mimeType }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1104,
+        -496
+      ],
+      "id": "6f0b5aa8-29b8-4462-9551-37f7de87d6e4",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.extractedFile?.length && $json.extractedFile.filter((f) => Object.keys(f)?.length > 0).length > 0 ? \"List of File content(s): \\n \" + JSON.stringify($json.extractedFile.filter((f) => Object.keys(f)?.length > 0)) : '' }}\n\n{{ $('When chat message received').item.json.chatInput }}",
+        "options": {
+          "systemMessage": "=# Identity\n\nYou are a Type Decider agent. You are responsible for checking whether the user input relates to modify_cell, read, and delete_rows operations.\n\n# Instructions\n\nIf the input contains any of the following types, include all detected types in the JSON format as follows:\n```json\n[\n  {\n    \"command_type\": \"modify_cell | read | delete_rows\",\n    \"instruction\": [\n      \"...\"\n    ] //contains both instructions and data\n  }\n]\n\n!! Important\nThe order must be:\n1. modify_cell\n2. read\n3. delete_rows\n\n# Example\n\nInput:\nHelp me insert this data into the table:\nNISN Siswa,Pendidikan Agama,Pendidikan Pancasila,Bahasa Indonesia,Bahasa Inggris,Matematika,Fisika,Kimia,Biologi\n2523889973,66,65,92,66,91,71,78,81\n6093833912,86,89,87,66,74,75,53,64\n7005723653,61,78,85,76,76,64,79,89\n\n[\n  {\n    \"command_type\": \"modify_cell\",\n    \"instruction\": [\n      \"Please add this student's scores to the table: NISN 2523889973, with the following grades — Pendidikan Agama: 66, Pendidikan Pancasila: 65, Bahasa Indonesia: 92, Bahasa Inggris: 66, Matematika: 91, Fisika: 71, Kimia: 78, and Biologi: 81\",\n      \"Please add the following student data to the table: NISN 6093833912, with the grades — Pendidikan Agama: 86, Pendidikan Pancasila: 89, Bahasa Indonesia: 87, Bahasa Inggris: 66, Matematika: 74, Fisika: 75, Kimia: 53, and Biologi: 64\",\n      \"Please add this student’s data to the table: NISN 7005723653, with the following scores — Pendidikan Agama: 61, Pendidikan Pancasila: 78, Bahasa Indonesia: 85, Bahasa Inggris: 76, Matematika: 76, Fisika: 64, Kimia: 79, and Biologi: 89\"\n    ]\n  }\n]\n\n",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -1024,
+        1168
+      ],
+      "id": "96e9e0ae-d545-4e9d-a496-d9ac39cc391e",
+      "name": "Type Decider"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b3784277-1746-477a-b78e-2ca303df8423",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "image/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "58cd09cb-2657-41b0-86c1-7c9b8f499e90",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "text/plain",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Plain Text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1e0475d6-3c04-42d1-a758-b1a79ade7962",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "application/pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PDF"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e5d9cde7-d9ff-4a2d-ba99-69b4e3b73521",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "text/csv",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "CSV"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7ab50ace-fa94-4b7d-a255-2804994c454a",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "application/json",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "JSON"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b62c9ad6-b076-4e6c-83d1-092770fef004",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "^(application|text)/xml$",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "XML"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ce3cce8a-f092-449f-8d56-931fb2bccced",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "/^(application\\/vnd\\.ms-excel|application\\/vnd\\.openxmlformats-officedocument\\.spreadsheetml\\.sheet)$/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "XLS, XLSX"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "78650dec-861f-4fcb-83a1-a9d80b61628f",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "application/rtf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "RTF"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1392,
+        704
+      ],
+      "id": "f0ff0b65-31c4-4b1c-808a-9764f418a966",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "extractedFile",
+        "options": {
+          "includeBinaries": true
+        }
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -1392,
+        1168
+      ],
+      "id": "1fb5028f-5bb9-4679-95be-ce56d679d1a2",
+      "name": "[0] Aggregate"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1280
+      ],
+      "id": "5ab23620-8df0-48fd-917f-44f492be1933",
+      "name": "[1] Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "KcwmfBrwQ4lFa5Fv",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2208,
+        1616
+      ],
+      "id": "a7e74fbf-ab0e-4b84-8fb7-ea4a811a525e",
+      "name": "[0] Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "KcwmfBrwQ4lFa5Fv",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-2025-04-14",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-2025-04-14"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2224,
+        1792
+      ],
+      "id": "7bc32c58-2ac1-4f76-907c-aa074b68906a",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ZKLGLlpAg28K51rR",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "[0] Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[0] Code": {
+      "main": [
+        [
+          {
+            "node": "[0] Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[1] Code": {
+      "main": [
+        [
+          {
+            "node": "[1] Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "[2] Formatter",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "[3] Informant",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Row(s) for Delete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[0] Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[1] Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[2] Formatter": {
+      "main": [
+        [
+          {
+            "node": "[1] Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "[1] Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[1] Code1": {
+      "main": [
+        [
+          {
+            "node": "[1] Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[1] Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "Delete Row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Get Row(s) for Delete",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Row(s) for Delete": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[1] Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[3] Informant": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Row(s)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[0] Read": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[1] Read": {
+      "ai_tool": [
+        [
+          {
+            "node": "Get Row(s) for Delete",
+            "type": "ai_tool",
+            "index": 0
+          },
+          {
+            "node": "[3] Informant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "[0] Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File5": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File7": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File8": {
+      "main": [
+        [
+          {
+            "node": "Extract from File7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File7": {
+      "main": [
+        [
+          {
+            "node": "Extract from File6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File5": {
+      "main": [
+        [
+          {
+            "node": "Extract from File4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File4": {
+      "main": [
+        [
+          {
+            "node": "Extract from File3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File3": {
+      "main": [
+        [
+          {
+            "node": "Extract from File2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File2": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Convert to File2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Convert to File3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Convert to File4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Convert to File5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Convert to File7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Convert to File8",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Type Decider",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Type Decider": {
+      "main": [
+        [
+          {
+            "node": "[1] Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[0] Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Type Decider",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[1] Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Get Row(s) for Delete",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "[3] Informant",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "[2] Formatter",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Type Decider",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "[0] Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "75a2d420-0400-441f-ab35-fe36dbc28ae4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0d386e31aeb290426e613eb2469917ac36738903f03e98407af695adc1e70a10"
+  },
+  "id": "CcTxMPFWXSJBh4NA",
+  "tags": []
+}
